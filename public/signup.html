@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="description" content="Based page">
+    <meta name="author" content="Artem Novikov">
+
+    <title>Someone help</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/main.css" rel="stylesheet">
+    <link href="../static/css/text_style.css" rel="stylesheet">
+
+</head>
+
+<body class="d-flex flex-column h-100">
+
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Someone Help</a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <form class="d-flex ms-auto">
+                    <input class="form-control me-2" type="search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                </form>
+                <button class="btn btn-outline-light" style="margin-left: 20px; margin-right: 10px">Войти</button>
+                <button class="btn btn-outline-light">Зарегистрироваться</button>
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Begin page content -->
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row" style="margin-top: 30px">
+            <!-- Question place -->
+            <div class="col-8">
+                <h2 style="margin-bottom: 20px">Регистрация</h2>
+                <form action="#" method="POST">
+                    <div class="row question-frame">
+                        <div class="col-2">
+                            <label for="login">Логин</label>
+                        </div>
+                        <div class="col-10">
+                            <input type="text" id="login" name="login" required>
+                        </div>
+                    </div>
+                    <div class="row question-frame">
+                        <div class="col-2">
+                            <label for="email">Почта</label>
+                        </div>
+                        <div class="col-10">
+                            <input type="email" id="email" name="email" required pattern="">
+                        </div>
+                    </div>
+                    <div class="row question-frame">
+                        <div class="col-2">
+                            <label for="password">Пароль</label>
+                        </div>
+                        <div class="col-10">
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="row question-frame">
+                        <div class="col-2">
+                            <label for="rep-password">Повторите пароль</label>
+                        </div>
+                        <div class="col-10">
+                            <input type="password" id="rep-password" name="rep-password" required>
+                        </div>
+                    </div>
+                    <div class="row question-frame">
+                        <div class="col-2">
+                            <label for="avatar">Аватар</label>
+                        </div>
+                        <div class="col-10">
+                            <input type="file" id="avatar" name="avatar" required>
+                        </div>
+                    </div>
+                    <div class="row question-frame">
+                        <div class="col-2">
+                        </div>
+                        <div class="col-10">
+                            <input type="submit" value="Зарегистрироваться" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-4" style="padding-left: 30px">
+                <div class="row">
+                    <h2>Популярные теги</h2>
+                    <div class="tags">
+                        <span class="badge bg-primary">Go</span>
+                        <span class="badge bg-success">Python</span>
+                        <span class="badge bg-warning">CSS</span>
+                        <span class="badge bg-danger">C/C++</span>
+                        <span class="badge bg-info">Web</span>
+                    </div>
+                </div>
+                <br>
+                <h2>Лучшие пользователи</h2>
+                <ul class="list-group">
+                    <li class="list-group-item"><a class="most-popular" href="">Пользователь 1</a></li>
+                    <li class="list-group-item"><a class="most-popular" href="">Пользователь 2</a></li>
+                    <li class="list-group-item"><a class="most-popular" href="">Пользователь 3</a></li>
+                    <li class="list-group-item"><a class="most-popular" href="">Пользователь 4</a></li>
+                    <li class="list-group-item"><a class="most-popular" href="">Пользователь 5</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
+
+
+<script src="/docs/5.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
