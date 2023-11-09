@@ -1,43 +1,15 @@
-{% extends 'layouts\base.html' %}
+{% extends 'layouts/base.html' %}
 
 {% load static %}
 
 {% block content %}
-<div class="row question">
-    <div class="col-3">
-        <img class="avatar-image" src="{% ststic '/img/loading.png' %}" alt="No photo">
-        <div class="reputation">
-            <span class="vote" onclick="vote(1)">+</span>
-            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
-            <span class="vote vote-minus" onclick="vote(-1)">-</span>
-        </div>
-    </div>
-    <div class="col-9">
-        <h4>Быть или не быть</h4>
-        <div class="question-text">Не, это реально сложный вопрос. Я не уверен, быть или не быть, как
-            вы думаете?
-        </div>
-    </div>
-</div>
+
+{% include 'components/question_item.html' %}
 
 <hr>
 
-<div class="row answer">
-    <div class="col-3">
-        <img class="avatar-image" src="{% ststic '/img/loading.png' %}" alt="No photo">
-    </div>
-    <div class="col-9">
-        <span class="question-text">Вопрос очень интересный. Я думаю, все-таки быть</span>
-    </div>
-</div>
-<div class="row answer">
-    <div class="col-3">
-        <img class="avatar-image" src="{% ststic '/img/loading.png' %}" alt="No photo">
-    </div>
-    <div class="col-9">
-        <span class="question-text">Не, лучше уж не быть</span>
-    </div>
-</div>
+{% include 'components/answer_item.html' %}
+
 <hr>
 <form>
     <label for="answer">Ваш ответ:</label>

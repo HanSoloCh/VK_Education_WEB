@@ -3,53 +3,14 @@
 {% load static %}
 
 {% block content %}
-<h1 class="page-tutle">Вопросы</h1>
-<div class="row question">
-    <div class="col-3">
-        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
-        <div class="reputation">
-            <span class="vote" onclick="vote(1)">+</span>
-            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
-            <span class="vote vote-minus" onclick="vote(-1)">-</span>
-        </div>
-    </div>
-    <div class="col-9">
-        <div class="question-title"><a class="question-title" href="#">Быть или не быть</a></div>
-        <div class="question-text">Быть или не быть, вот в чем вопрос. Что вы думаете об этом вообще
-        </div>
-    </div>
-</div>
-<div class="row question">
-    <div class="col-3">
-        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
-        <div class="reputation">
-            <span class="vote" onclick="vote(1)">+</span>
-            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
-            <span class="vote vote-minus" onclick="vote(-1)">-</span>
-        </div>
-    </div>
+<h1 class="page-title">Вопросы</h1>
 
-    <div class="col-9">
-        <div class="question-title"><a class="question-title" href="#">Быть или не быть</a></div>
-        <div class="question-text">Быть или не быть, вот в чем вопрос. Что вы думаете об этом вообще
-        </div>
-    </div>
-</div>
-<div class="row question">
-    <div class="col-3">
-        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
-        <div class="reputation">
-            <span class="vote" onclick="vote(1)">+</span>
-            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
-            <span class="vote vote-minus" onclick="vote(-1)">-</span>
-        </div>
-    </div>
-    <div class="col-9">
-        <div class="question-title"><a class="question-title" href="#">Быть или не быть</a></div>
-        <div class="question-text">Быть или не быть, вот в чем вопрос. Что вы думаете об этом вообще
-        </div>
-    </div>
-</div>
+{% for question in questions %}
+
+{% include 'components/question_item.html' %}
+
+{% endfor %}
+
 <!--   Навигация по странице         -->
 <nav aria-label="Пример навигации по страницам" style="margin-top: 30px">
     <ul class="pagination">
