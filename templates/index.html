@@ -1,10 +1,12 @@
 {% extends 'layouts/base.html' %}
 
+{% load static %}
+
 {% block content %}
 <h1 class="page-tutle">Вопросы</h1>
 <div class="row question">
     <div class="col-3">
-        <img class="avatar-image" src="../static/img/loading.png" alt="No photo">
+        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
         <div class="reputation">
             <span class="vote" onclick="vote(1)">+</span>
             <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
@@ -19,7 +21,7 @@
 </div>
 <div class="row question">
     <div class="col-3">
-        <img class="avatar-image" src="../static/img/loading.png" alt="No photo">
+        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
         <div class="reputation">
             <span class="vote" onclick="vote(1)">+</span>
             <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
@@ -35,7 +37,7 @@
 </div>
 <div class="row question">
     <div class="col-3">
-        <img class="avatar-image" src="../static/img/loading.png" alt="No photo">
+        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
         <div class="reputation">
             <span class="vote" onclick="vote(1)">+</span>
             <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
