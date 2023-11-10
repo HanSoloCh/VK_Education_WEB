@@ -19,17 +19,17 @@
 
     <style>
         .bd-placeholder-img {
-          font-size: 1.125rem;
-          text-anchor: middle;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          user-select: none;
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
 
         @media (min-width: 768px) {
-          .bd-placeholder-img-lg {
-            font-size: 3.5rem;
-          }
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
         }
     </style>
 
@@ -52,9 +52,12 @@
                     <input class="form-control me-2" type="search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Поиск</button>
                 </form>
-                <button class="btn btn-outline-light" style="margin-left: 20px; margin-right: 10px">Войти</button>
-                <button class="btn btn-outline-light">Зарегистрироваться</button>
-
+                <a class="btn btn-outline-light" href="{% url 'login' %}" style="margin-left: 20px; margin-right: 10px">
+                    Войти
+                </a>
+                <a class="btn btn-outline-light" href="{% url 'signup' %}">
+                    Зарегистрироваться
+                </a>
             </div>
         </div>
     </nav>
@@ -72,7 +75,7 @@
             </div>
             <div class="col-4" style="padding-left: 30px">
                 <div class="row">
-                    <h2>Популярные теги</h2>
+                    <h2 style="margin-top: 20px">Популярные теги</h2>
                     <div class="tags">
                         <span class="badge bg-primary">Go</span>
                         <span class="badge bg-success">Python</span>
@@ -90,7 +93,10 @@
                     <li class="list-group-item"><a class="most-popular" href="">Пользователь 4</a></li>
                     <li class="list-group-item"><a class="most-popular" href="">Пользователь 5</a></li>
                 </ul>
+
+                <a class="btn btn-primary" style="margin-top: 20px">Задать вопрос</a>
             </div>
+
         </div>
     </div>
 </main>
