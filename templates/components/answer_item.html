@@ -3,6 +3,11 @@
 <div class="row answer">
     <div class="col-3">
         <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
+        <div class="reputation">
+            <span class="vote" onclick="vote(1)">+</span>
+            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
+            <span class="vote vote-minus" onclick="vote(-1)">-</span>
+        </div>
     </div>
     <div class="col-9">
         <span class="question-text">Не, лучше уж не быть</span>
