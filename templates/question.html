@@ -8,12 +8,16 @@
 
 <hr>
 
+{% for answer in answers %}
+
 {% include 'components/answer_item.html' %}
+
+{% endfor %}
 
 {% include 'components/paginator.html' %}
 
 <hr>
-<form>
+<form style="margin-bottom: 10px">
     <label for="answer">Ваш ответ:</label>
     <textarea id="answer" style="margin-bottom: 5px; margin-top: 10px; width: 100%" name="answer" rows="5"
               required></textarea>

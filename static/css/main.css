@@ -15,7 +15,7 @@ main > .container {
 }
 
 .tags {
-    max-wight: 100px;
+    max-width: 100px;
 }
 
 .most-popular {
@@ -36,12 +36,6 @@ main > .container {
 
 .reputation {
     display: flex; /* Используем флекс-контейнер для выравнивания элементов */
-    flex-direction: row; /* Определяем столбцовую ориентацию для элементов внутри */
-    align-items: center; /* Выравниваем элементы по центру вдоль главной оси (вертикально) */
-}
-
-.reputation {
-    display: flex; /* Используем флекс-контейнер для выравнивания элементов */
     flex-direction: row; /* Определяем горизонтальную ориентацию для элементов внутри */
     align-items: center; /* Выравниваем элементы по центру вдоль главной оси (вертикально) */
 }
@@ -53,12 +47,23 @@ main > .container {
 }
 
 .vote:hover {
-    color: green; /* Зеленый цвет при наведении на "+" и "-" */
+    color: green; /* Зеленый цвет при наведении на "+" */
 }
 
 .vote-minus:hover {
     color: red; /* Красный цвет при наведении на "-" */
 }
 
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
 
-
+.top-user-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border-radius: 50%;
+}

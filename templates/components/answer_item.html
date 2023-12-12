@@ -2,14 +2,19 @@
 
 <div class="row answer">
     <div class="col-3">
-        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
-        <div class="reputation">
-            <span class="vote" onclick="vote(1)">+</span>
-            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
-            <span class="vote vote-minus" onclick="vote(-1)">-</span>
-        </div>
+        <img class="avatar-image" src="{% static answer.author.avatar %}" alt="No photo">
+        {% include "components/reputation.html" with rating=answer.get_total_rating %}
     </div>
-    <div class="col-9">
-        <span class="question-text">Не, лучше уж не быть</span>
+    <div class="col-9 d-flex flex-column">
+        <span class="question-text">{{ answer.content }}</span>
+        <div class="correct-answer mt-auto">
+            {% if answer.correct %}
+                <input type="checkbox" checked disabled>
+                <span class="correct-label">Correct!</span>
+            {% else %}
+                <input type="checkbox" disabled>
+                <span class="correct-label">Not Correct!</span>
+            {% endif %}
+        </div>
     </div>
 </div>

@@ -1,16 +1,10 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from .models import Question, Profile, Tag, Like, Answer
 
 
-# Create your views here.
-
-QUESTIONS = [
-    {
-        'id': i,
-        'title': f'question {i}',
-        'content': f'blablablablabla {i}',
-    } for i in range(30)
-]
+top_users = Profile.objects.get_top_users()
+popular_tags = Tag.get_popular_tags()
 
 
 def paginate(objects, page_num, per_page=15):
@@ -20,26 +14,29 @@ def paginate(objects, page_num, per_page=15):
 
 
 def index(request):
-    page_num = request.GET.get('page', 1)
-    return render(request, 'index.html', {'questions': paginate(QUESTIONS, page_num)})
+    page = request.GET.get('page', 1)
+    paginated_questions = Question.paginate_questions(Question.objects.sort_questions(), page)
+    return render(request, 'index.html', {'questions': paginated_questions, 'top_users': top_users, 'popular_tags': popular_tags})
 
 
 def question(request, question_id):
-    item = QUESTIONS[question_id]
-    return render(request, 'question.html', {'question': item})
+    item = Question.objects.get(id=question_id)
+    page = request.GET.get('page', 1)
+    paginated_answer = Question.paginate_questions(item.answer_set.all(), page, 5)
+    return render(request, 'question.html', {'question': item, 'answers': paginated_answer, 'top_users': top_users})
 
 
 def ask(request):
-    return render(request, 'ask.html')
+    return render(request, 'ask.html', {'top_users': top_users})
 
 
 def login(request):
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'top_users': top_users})
 
 
 def signup(request):
-    return render(request, 'signup.html')
+    return render(request, 'signup.html', {'top_users': top_users})
 
 
 def settings(request):
-    return render(request, 'settings.html')
+    return render(request, 'settings.html', {'top_users': top_users})

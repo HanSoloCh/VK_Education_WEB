@@ -2,17 +2,19 @@
 
 <div class="row question">
     <div class="col-3">
-        <img class="avatar-image" src="{% static '/img/loading.png' %}" alt="No photo">
-        <div class="reputation">
-            <span class="vote" onclick="vote(1)">+</span>
-            <span class="votes" style="margin-left: 10px; margin-right: 10px">0</span>
-            <span class="vote vote-minus" onclick="vote(-1)">-</span>
-        </div>
+        <img class="avatar-image" src="{% static question.author.avatar %}" alt="No photo">
+        {% include "components/reputation.html" with rating=question.get_total_rating %}
     </div>
-    <div class="col-9">
+    <div class="col-9 d-flex flex-column">
         <a class="question-title" href="{% url 'question' question.id %}">{{ question.title }}</a>
         <div class="question-text">
             {{ question.content }}
+        </div>
+        <div class="d-flex align-items-center mt-auto">
+            <span>Теги:</span>
+            {% for tag in question.tags.all %}
+            <span class="badge bg-primary" style="margin-left: 10px">{{ tag.name }}</span>
+            {% endfor %}
         </div>
     </div>
 </div>
