@@ -4,14 +4,14 @@
 
 .question-title {
     font-size: 25px;
-    font-family: Helvetica;
+    font-family: Helvetica, serif;
     color: black;
     text-decoration: none;
 }
 
 .question-text {
     font-size: 16px;
-    font-family: Helvetica;
+    font-family: Helvetica, serif;
 }
 
 .reputation {
@@ -19,5 +19,4 @@
   justify-content: center; /* Горизонтальное выравнивание по центру */
   margin-top: 10px;
   max-width: 150px;
-
 }

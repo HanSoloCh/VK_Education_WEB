@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1 class="page-title">Вопросы</h1>
+<h1 class="page-title">{{ page_name }}</h1>
 
 {% for question in questions %}
 
@@ -12,6 +12,6 @@
 
 {% endfor %}
 
-{% include 'components/paginator.html' %}
+{% include 'components/paginator.html' with item=questions %}
 
 {% endblock %}

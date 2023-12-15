@@ -1,18 +1,31 @@
-<!--   Навигация по странице         -->
 <nav aria-label="Пример навигации по страницам" style="margin-top: 30px">
     <ul class="pagination">
+        {% if item.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Предыдущая">
+            <a class="page-link" href="?page=1" aria-label="Предыдущая">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        {% endif %}
+
+        {% for num in item.paginator.page_range %}
+        {% if num == item.number %}
+        <li class="page-item active">
+            <span class="page-link">{{ num }}</span>
+        </li>
+        {% elif num > item.number|add:'-3' and num < item.number|add:'3' %}
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Следующая">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if item.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ item.paginator.num_pages }}" aria-label="Следующая">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
+        {% endif %}
     </ul>
 </nav>

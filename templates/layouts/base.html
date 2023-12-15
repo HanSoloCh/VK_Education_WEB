@@ -47,6 +47,11 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'index' %}">Someone Help</a>
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'hottest' %}">Лучшее</a>
+                </li>
+            </ul>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <form class="d-flex ms-auto">
                     <input class="form-control me-2" type="search" aria-label="Search">
@@ -84,7 +89,8 @@
                     <h2 style="margin-top: 20px">Популярные теги</h2>
                     <div class="d-flex align-items-center mt-auto">
                         {% for tag in popular_tags %}
-                            <span class="badge bg-primary" style="margin-right: 10px">{{ tag.name }}</span>
+                        <span class="badge bg-primary" style="margin-right: 10px"><a
+                                style="text-decoration: none; color: white;" href="{% url 'tag_page' tag.name %}">{{ tag.name }}</a></span>
                         {% endfor %}
                     </div>
                 </div>
@@ -105,8 +111,8 @@
                     {% endfor %}
                 </ul>
 
-
-                <a class="btn btn-primary" style="margin-top: 20px" href="{% url 'ask' %}">Задать вопрос</a>
+                <a class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px" href="{% url 'ask' %}">Задать
+                    вопрос</a>
             </div>
 
         </div>

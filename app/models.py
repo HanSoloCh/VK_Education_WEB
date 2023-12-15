@@ -68,7 +68,7 @@ class QuestionManager(models.Manager):
 
     def new_questions(self):
         # Получение новых вопросов с сортировкой по убыванию ID
-        return self.get_queryset().order_by('-id')[:10]
+        return self.get_queryset().order_by('-id')
 
     def sort_questions(self):
         # Сортировка вопросов по убыванию ID

@@ -14,15 +14,6 @@ main > .container {
     max-height: 150px;
 }
 
-.tags {
-    max-width: 100px;
-}
-
-.most-popular {
-    text-decoration: none;
-    color: black;
-}
-
 .question-frame {
     padding-bottom: 20px;
 }
