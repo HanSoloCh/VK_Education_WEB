@@ -22,6 +22,9 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='img/', default='img/default.png')
     objects = ProfileManager()
 
+    def __str__(self):
+        return str(self.nickname)
+
     def get_user_rating(self):
         return Answer.objects.filter(author=self, correct=True).count()
 
@@ -53,6 +56,14 @@ class Answer(models.Model):
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # Создаем новый вопрос
+            self.like = Like.objects.create(count=0)
+            self.dislike = Like.objects.create(count=0)
+            self.correct = False
+        super().save(*args, **kwargs)
+
     def get_total_rating(self):
         # Получение общей оценки ответа
         return str(int(self.like.count - self.dislike.count))
@@ -81,10 +92,20 @@ class Question(models.Model):
     content = models.TextField()
     like = models.ForeignKey(Like, on_delete=models.CASCADE, related_name='question_likes')
     dislike = models.ForeignKey(Like, on_delete=models.CASCADE, related_name='question_dislikes')
-    answer_count = models.IntegerField()
+    answer_count = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     objects = QuestionManager()
+
+    def __str__(self):
+        return str(self.title)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # Создаем новый вопрос
+            self.like = Like.objects.create(count=0)
+            self.dislike = Like.objects.create(count=0)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         # Получение абсолютного URL для вопроса

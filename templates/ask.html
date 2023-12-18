@@ -1,47 +1,11 @@
 {% extends 'layouts/base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 <h1 class="page-title">Попросить помощи</h1>
 <form action="#" method="POST">
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="title">Заголовок</label>
-        </div>
-        <div class="col-10">
-            <input type="text" style="width: 100%" id="title" name="title" required maxlength="30">
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="question">Текст</label>
-        </div>
-        <div class="col-10">
-            <textarea style="width: 100%" id="question" rows="10" name="question" required></textarea>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="tags">Теги</label>
-        </div>
-        <div class="col-10">
-            <input list="popular-tags" style="width: 100%" id="tags" name="tags">
-            <datalist id="popular-tags">
-                <option value="Go"></option>
-                <option value="Python"></option>
-                <option value="CSS"></option>
-                <option value="C/C++"></option>
-                <option value="Web"></option>
-            </datalist>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-        </div>
-        <div class="col-10">
-            <input type="submit" value="Просить">
-
-        </div>
-    </div>
-
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Спросить" %}
 </form>
 {% endblock %}

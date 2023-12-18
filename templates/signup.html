@@ -1,54 +1,11 @@
 {% extends 'layouts/base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 <h1 class="page-title">Регистрация</h1>
 <form action="#" method="POST">
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="login">Логин</label>
-        </div>
-        <div class="col-10">
-            <input type="text" id="login" name="login" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="email">Почта</label>
-        </div>
-        <div class="col-10">
-            <input type="email" id="email" name="email" required pattern="">
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="password">Пароль</label>
-        </div>
-        <div class="col-10">
-            <input type="password" id="password" name="password" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="rep-password">Повторите пароль</label>
-        </div>
-        <div class="col-10">
-            <input type="password" id="rep-password" name="rep-password" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="avatar">Аватар</label>
-        </div>
-        <div class="col-10">
-            <input type="file" id="avatar" name="avatar" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-        </div>
-        <div class="col-10">
-            <input type="submit" value="Зарегистрироваться" required>
-        </div>
-    </div>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Зарегистрироваться" %}
 </form>
 {% endblock %}

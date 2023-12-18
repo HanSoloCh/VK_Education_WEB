@@ -1,38 +1,15 @@
 {% extends 'layouts/base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 <h1 class="page-title">Авторизация</h1>
 <form action="#" method="POST">
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="login">Логин</label>
-        </div>
-        <div class="col-10">
-            <input type="text" id="login" name="login" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="login">Пароль</label>
-        </div>
-        <div class="col-10">
-            <label for="password"></label><input type="password" id="password" name="password" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-        </div>
-        <div class="col-10">
-            <input type="submit" value="Войти" required>
-        </div>
-    </div>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Войти" %}
 </form>
 <div class="row">
-    <div class="col-2">
-    </div>
-    <div class="col-10">
-        <a style="" href="{% url 'signup' %}">Создать новый аккаунт</a>
-    </div>
+    <a style="margin-top: 10px" href="{% url 'signup' %}">Создать новый аккаунт</a>
 </div>
 
 {% endblock %}

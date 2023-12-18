@@ -1,6 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% load static %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 
@@ -8,20 +9,21 @@
 
 <hr>
 
-{% for answer in answers %}
+{% if answers %}
+    {% for answer in answers %}
 
-{% include 'components/answer_item.html' %}
+    {% include 'components/answer_item.html' %}
 
-{% endfor %}
+    {% endfor %}
 
-{% include 'components/paginator.html' with item=answers %}
-
+    {% include 'components/paginator.html' with item=answers %}
 <hr>
-<form style="margin-bottom: 10px">
-    <label for="answer">Ваш ответ:</label>
-    <textarea id="answer" style="margin-bottom: 5px; margin-top: 10px; width: 100%" name="answer" rows="5"
-              required></textarea>
-    <input type="submit" value="Помочь">
+{% endif %}
+
+<form style="margin-bottom: 10px" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Помочь" %}
 </form>
 
 {% endblock %}

@@ -1,40 +1,32 @@
 {% extends 'layouts/base.html' %}
 
+{% load static %}
+{% load django_bootstrap5 %}
+
 {% block content %}
 <h1 class="page-title">Настройки</h1>
-<form action="#" method="POST">
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="login">Логин</label>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form action="#" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% bootstrap_button button_type="submit" content="Сохранить" %}
+            </form>
         </div>
-        <div class="col-10">
-            <input type="text" id="login" name="login" required>
+        <div class="col-6">
+            <div class="d-flex flex-column align-items-center">
+                <img src="{% static user.profile.avatar.url %}" alt="User avatar"
+                     style="width: 100px; height: 100px; margin: 10px; border-radius: 50%; border: 1px solid gray">
+                <div class="mt-3">
+                    <span class="fw-bold">{{ user.profile.nickname }}</span>
+                    <span class="badge bg-secondary">{{ user.profile.get_user_rating }}</span>
+                </div>
+            </div>
         </div>
+
     </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="email">Почта</label>
-        </div>
-        <div class="col-10">
-            <input type="email" id="email" name="email" required pattern="">
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-            <label for="avatar">Аватар</label>
-        </div>
-        <div class="col-10">
-            <input type="file" id="avatar" name="avatar" required>
-        </div>
-    </div>
-    <div class="row question-frame">
-        <div class="col-2">
-        </div>
-        <div class="col-10">
-            <input type="submit" value="Сохранить" required>
-        </div>
-    </div>
-</form>
-<a type="button" class="btn btn-danger" href="{% url 'index' %}">Выйти</a>
+</div>
+
 
 {% endblock %}
