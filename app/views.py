@@ -107,7 +107,6 @@ def ask(request):
                                         'form': question_form})
 
 
-@csrf_protect
 def login_view(request):
     if request.method == 'POST':
         log_form = LoginForm(request.POST)
