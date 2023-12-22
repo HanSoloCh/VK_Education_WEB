@@ -1,5 +1,6 @@
 <div class="reputation">
-    <span class="vote" onclick="vote(1)">+</span>
-    <span class="votes" style="margin-left: 10px; margin-right: 10px">{{ rating }}</span>
-    <span class="vote vote-minus" onclick="vote(-1)">-</span>
+    <span class="vote">+</span>
+    <span class="votes" data-id="{{ post.id }}" data-likeType="{{ post.object_type }}"
+          style="margin-left: 10px; margin-right: 10px">{{ post.get_total_rating }}</span>
+    <span class="vote vote-minus">-</span>
 </div>

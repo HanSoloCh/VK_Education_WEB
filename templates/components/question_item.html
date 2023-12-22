@@ -1,9 +1,17 @@
 {% load static %}
 
 <div class="row question">
-    <div class="col-3">
-        <img class="avatar-image" src="{% static question.author.avatar %}" alt="No photo">
-        {% include "components/reputation.html" with rating=question.get_total_rating %}
+    <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+        <img class="avatar-image" style="width: 125px; height: 125px; border-radius: 50%;"
+             src="{{ question.author.avatar.url }}"
+             alt="Profile photo">
+        <span>{{ question.author.nickname }}</span>
+        <div class="question-reputation">
+            <span class="vote">+</span>
+            <span class="votes" data-id="{{ question.id }}"
+                  style="margin-left: 10px; margin-right: 10px">{{ question.get_total_rating }}</span>
+            <span class="vote vote-minus">-</span>
+        </div>
     </div>
     <div class="col-9 d-flex flex-column">
         <a class="question-title" href="{% url 'question' question.id %}">{{ question.title }}</a>
@@ -13,7 +21,8 @@
         <div class="d-flex align-items-center mt-auto">
             <span>Теги:</span>
             {% for tag in question.tags.all %}
-            <span class="badge bg-primary" style="margin-left: 10px"><a style="text-decoration: none; color: white" href="{% url 'tag_page' tag.name %}">{{ tag.name }}</a></span>
+            <span class="badge bg-primary" style="margin-left: 10px"><a style="text-decoration: none; color: white"
+                                                                        href="{% url 'tag_page' tag.name %}">{{ tag.name }}</a></span>
             {% endfor %}
         </div>
     </div>

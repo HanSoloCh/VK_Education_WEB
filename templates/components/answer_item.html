@@ -1,16 +1,24 @@
 {% load static %}
 
 <div class="row answer">
-    <div class="col-3">
-        <img class="avatar-image" src="{% static answer.author.avatar %}" alt="No photo">
-        {% include "components/reputation.html" with rating=answer.get_total_rating %}
+    <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+        <img class="avatar-image" style="width: 125px; height: 125px; border-radius: 50%;" src="{{ answer.author.avatar.url }}"
+             alt="Profile avatar">
+        <span>{{ answer.author.nickname }}</span>
+        <div class="answer-reputation">
+            <span class="vote">+</span>
+            <span class="votes" data-id="{{ answer.id }}"
+                  style="margin-left: 10px; margin-right: 10px">{{ answer.get_total_rating }}</span>
+            <span class="vote vote-minus">-</span>
+        </div>
     </div>
+
     <div class="col-9 d-flex flex-column">
         <span class="question-text">{{ answer.content }}</span>
         <div class="correct-answer mt-auto">
             {% if answer.correct %}
-                <input type="checkbox" checked disabled>
-                <span class="correct-label">Правильный ответ</span>
+            <input type="checkbox" checked disabled>
+            <span class="correct-label">Правильный ответ</span>
             {% endif %}
         </div>
     </div>

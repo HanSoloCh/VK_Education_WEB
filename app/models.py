@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Count, Sum
 
+# TODO Настроить лучшие вопросы и убрать объект Like
+
 
 class ProfileManager(models.Manager):
     def get_top_users(self, count=5):
@@ -19,7 +21,7 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=30)
-    avatar = models.ImageField(upload_to='img/', default='img/default.png')
+    avatar = models.ImageField(upload_to='img/avatars', default='img/default.png')
     objects = ProfileManager()
 
     def __str__(self):
@@ -42,40 +44,47 @@ class Tag(models.Model):
         return Tag.objects.annotate(num_questions=Count('question')).order_by('-num_questions')[:count]
 
 
-# Модель "Лайка" для оценки
-class Like(models.Model):
-    count = models.IntegerField(null=False)
+class Vote(models.Model):
+    VOTE_CHOICES = [
+        ('like', 'Like'),
+        ('dislike', 'Dislike'),
+    ]
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    vote_type = models.CharField(max_length=7, choices=VOTE_CHOICES)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE, null=True, blank=True)
+    answer = models.ForeignKey('Answer', on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        unique_together = ['profile', 'question', 'answer']
 
 
 # Модель ответа на вопрос
 class Answer(models.Model):
     content = models.TextField()
-    like = models.ForeignKey(Like, on_delete=models.CASCADE, related_name='answer_likes')
-    dislike = models.ForeignKey(Like, on_delete=models.CASCADE, related_name='answer_dislikes')
-    correct = models.BooleanField()
+    correct = models.BooleanField(default=False)
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            # Создаем новый вопрос
-            self.like = Like.objects.create(count=0)
-            self.dislike = Like.objects.create(count=0)
-            self.correct = False
-        super().save(*args, **kwargs)
+    votes = models.ManyToManyField(Vote, related_name='answer_votes')
 
     def get_total_rating(self):
         # Получение общей оценки ответа
-        return str(int(self.like.count - self.dislike.count))
+        return (Vote.objects.filter(answer=self, vote_type='like').count() -
+                Vote.objects.filter(answer=self, vote_type='dislike').count())
 
 
 # Менеджер модели вопроса
 class QuestionManager(models.Manager):
     def best_questions(self):
         # Получение лучших вопросов с использованием аннотации и сортировки
-        return self.get_queryset().annotate(
-            rating=models.F('like__count') - models.F('dislike__count')
-        ).order_by('-rating')[:10]
+        questions_items = self.get_queryset().annotate(
+            total_rating=Sum(models.Case(
+                models.When(vote__vote_type='like', then=1),
+                models.When(vote__vote_type='dislike', then=-1),
+                default=0,
+                output_field=models.IntegerField(),
+            ))
+        ).order_by('-total_rating')
+        return questions_items
 
     def new_questions(self):
         # Получение новых вопросов с сортировкой по убыванию ID
@@ -90,22 +99,14 @@ class QuestionManager(models.Manager):
 class Question(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    like = models.ForeignKey(Like, on_delete=models.CASCADE, related_name='question_likes')
-    dislike = models.ForeignKey(Like, on_delete=models.CASCADE, related_name='question_dislikes')
     answer_count = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    votes = models.ManyToManyField(Vote, related_name='question_votes')
     objects = QuestionManager()
 
     def __str__(self):
         return str(self.title)
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            # Создаем новый вопрос
-            self.like = Like.objects.create(count=0)
-            self.dislike = Like.objects.create(count=0)
-        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         # Получение абсолютного URL для вопроса
@@ -113,7 +114,8 @@ class Question(models.Model):
 
     def get_total_rating(self):
         # Получение общей оценки вопроса
-        return str(int(self.like.count - self.dislike.count))
+        return (Vote.objects.filter(question=self, vote_type='like').count() -
+                Vote.objects.filter(question=self, vote_type='dislike').count())
 
     @staticmethod
     def paginate_questions(objects, page, per_page=15):

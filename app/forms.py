@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Question, Answer, Profile
+from .models import Question, Answer, Profile, Tag
 
 
 class LoginForm(forms.Form):
@@ -53,11 +53,13 @@ class ProfileEditorForm(forms.ModelForm):
         model = Profile
         fields = ['nickname', 'email', 'avatar']
 
-    def __init__(self, *args, **kwargs):
-        super(ProfileEditorForm, self).__init__(*args, **kwargs)
-        # Заполняем поле nickname текущим никнеймом пользователя
-        self.initial['nickname'] = self.instance.nickname
-        self.initial['email'] = self.instance.user.email
+    def save(self, **kwargs):
+        profile = super().save(**kwargs)
+
+        profile.avatar = self.cleaned_data.get('avatar')
+        profile.save()
+
+        return profile
 
 
 class QuestionForm(forms.ModelForm):
@@ -79,6 +81,36 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ['title', 'content', 'tags']
 
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        super(QuestionForm, self).__init__(*args, **kwargs)
+
+    def get_tags(self):
+        tags_input = self.cleaned_data.get('tags')
+        tag_names = [tag.strip() for tag in tags_input.split(',') if tag.strip()]
+
+        if len(tag_names) > 3:
+            raise forms.ValidationError('Максимальное количество тегов - 3.')
+
+        return tag_names
+
+    def save(self, commit=True):
+        question_item = super().save(commit=False)
+        question_item.author = self.author
+
+        try:
+            tag_names = self.get_tags()
+            tags = [Tag.objects.get_or_create(name=tag)[0] for tag in tag_names]
+        except forms.ValidationError as e:
+            self.add_error('tags', e.message)
+            return question_item
+
+        if commit:
+            question_item.save()
+            question_item.tags.add(*tags)
+
+        return question_item
+
 
 class AnswerForm(forms.ModelForm):
     content = forms.CharField(label='Ваш ответ', widget=forms.Textarea)
@@ -86,3 +118,16 @@ class AnswerForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ['content']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.item = kwargs.pop('item', None)
+        super(AnswerForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        answer_item = super().save(commit=False)
+        answer_item.author = self.user.profile
+        answer_item.question = self.item
+        if commit:
+            answer_item.save()
+        return answer_item
