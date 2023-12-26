@@ -51,3 +51,44 @@ const answerItems = document.getElementsByClassName('answer-reputation');
 
 attachLikeHandlers(questionItems, 'question');
 attachLikeHandlers(answerItems, 'answer');
+
+function makeCorrect(itemId) {
+    const formData = new FormData();
+    formData.append('answer_id', itemId);
+
+    const request = new Request('/make_correct/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        }
+    });
+
+    fetch(request)
+        .then((response) => response.json())
+        .then((data) => {
+
+            // Обновление интерфейса после успешного ответа от сервера
+            console.log(data);
+            const label = document.querySelector(`[data-id="${itemId}"] .form-check-label`);
+            console.log(label);
+            if (data.correct)
+                label.innerHTML = "Правильный ответ.";
+            else
+                label.innerHTML = "Отметить как правильный.";
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+const correctButtons = document.getElementsByClassName('correct-answer');
+
+for (let item of correctButtons) {
+    const button = item.children[0];
+
+    button.addEventListener('click', () => makeCorrect(item.dataset.id));
+}
+
+

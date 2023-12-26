@@ -32,6 +32,7 @@ urlpatterns = [
     path('hottest', views.hottest, name='hottest'),
     path('question_like/', views.question_like, name='question_like'),
     path('answer_like/', views.answer_like, name='answer_like'),
+    path('make_correct/', views.make_correct, name='make_correct'),
     path('admin/', admin.site.urls),
 ]
 

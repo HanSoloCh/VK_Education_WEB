@@ -216,3 +216,22 @@ def answer_like(request):
     count = answer_item.get_total_rating()
     return JsonResponse({'count': count})
 
+
+@csrf_protect
+@login_required(login_url='login')
+def make_correct(request):
+    answer_id = request.POST.get('answer_id')
+
+    answer_item = get_object_or_404(Answer, pk=answer_id)
+
+    profile = request.user.profile
+
+    if answer_item.question.author == profile:
+        if not answer_item.correct:
+            answer_item.correct = True
+        else:
+            answer_item.correct = False
+        answer_item.save()
+
+    return JsonResponse({'correct': answer_item.correct})
+
