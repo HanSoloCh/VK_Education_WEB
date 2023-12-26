@@ -55,7 +55,7 @@ class Vote(models.Model):
     answer = models.ForeignKey('Answer', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        unique_together = ['profile', 'question', 'answer']
+        unique_together = ['profile', 'vote_type', 'question', 'answer']
 
 
 # Модель ответа на вопрос

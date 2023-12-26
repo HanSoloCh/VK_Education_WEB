@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from app.models import Profile, Question, Answer, Tag, Like
+from app.models import Profile, Question, Answer, Tag, Vote
 from django.contrib.auth.models import User
 import random
 
@@ -18,7 +18,7 @@ answer_examples = [
     "Изучение питона лучше всего начать с похода в зоопарк, не так ли? Или я сам не в теме?",
 ]
 
-# TODO Создавать от последнего юзера
+
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
@@ -43,12 +43,9 @@ class Command(BaseCommand):
         for i in range(ratio * 10):
             print(f'Question-{str(i)}')
             author = Profile.objects.get(id=random.randint(1, ratio))
-            like, created = Like.objects.get_or_create(count=random.randint(0, 100))
-            dislike, created = Like.objects.get_or_create(count=random.randint(0, 100))
             question = Question.objects.create(title=f'Question-{str(i)}',
                                                content=random.choice(content_examples),
-                                               answer_count=random.randint(0, 10), author=author,
-                                               like=like, dislike=dislike)
+                                               answer_count=random.randint(0, 10), author=author)
             tag_nums = set()
 
             max_tags = 3
@@ -60,8 +57,17 @@ class Command(BaseCommand):
                 question.tags.add(Tag.objects.get(id=tag_nums[j]))
 
             for _ in range(10):
-                like, created = Like.objects.get_or_create(count=random.randint(0, question.like.count))
-                dislike, created = Like.objects.get_or_create(count=random.randint(0, question.dislike.count))
                 author = Profile.objects.get(id=random.randint(1, ratio))
-                Answer.objects.create(content=random.choice(answer_examples), correct=bool(random.getrandbits(1)),
-                                      question=question, like=like, dislike=dislike, author=author)
+                answer = Answer.objects.create(content=random.choice(answer_examples), correct=bool(random.getrandbits(1)),
+                                      question=question, author=author)
+                # Лайки ответа
+                for j in range(3):
+                    Vote.objects.create(profile=Profile.objects.get(id=random.randint(1, ratio)),
+                                        vote_type=random.choice(['like', 'dislike']),
+                                        answer=answer)
+
+            # Лайки вопроса
+            for j in range(3):
+                Vote.objects.create(profile=Profile.objects.get(id=random.randint(1, ratio)),
+                                    vote_type=random.choice(['like', 'dislike']),
+                                    question=question)
