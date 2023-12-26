@@ -87,7 +87,7 @@ class QuestionForm(forms.ModelForm):
 
     def get_tags(self):
         tags_input = self.cleaned_data.get('tags')
-        tag_names = [tag.strip() for tag in tags_input.split(',') if tag.strip()]
+        tag_names = [tag.strip().lower() for tag in tags_input.split(',') if tag.strip()]
 
         if len(tag_names) > 3:
             raise forms.ValidationError('Максимальное количество тегов - 3.')
