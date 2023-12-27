@@ -12,9 +12,6 @@ from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from .forms import ProfileEditorForm, LoginForm, RegisterForm, QuestionForm, AnswerForm
 from .models import Question, Profile, Tag, Answer, Vote
 
-top_users = Profile.objects.get_top_users()
-popular_tags = Tag.get_popular_tags()
-
 
 def paginate(objects, page_num, per_page=15):
     paginator = Paginator(objects, per_page)
@@ -22,6 +19,9 @@ def paginate(objects, page_num, per_page=15):
 
 
 def index(request):
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     page_name = f'Вопросы'
     page = request.GET.get('page', 1)
     paginated_questions = Question.paginate_questions(Question.objects.new_questions(), page)
@@ -33,6 +33,9 @@ def index(request):
 
 def hottest(request):
     page_name = f'Самое популярное'
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     page = request.GET.get('page', 1)
     hot_questions = Question.objects.best_questions()
     paginated_questions = Question.paginate_questions(hot_questions, page)
@@ -44,6 +47,9 @@ def hottest(request):
 
 def tag_page(request, tag_name):
     page_name = f'Вопросы по тегу {tag_name}'
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     # Получаем объект тега по имени
     tag = Tag.objects.get(name=tag_name)
     # Получаем вопросы с этим тегом
@@ -58,6 +64,9 @@ def tag_page(request, tag_name):
 
 @csrf_protect
 def question(request, question_id):
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     item = Question.objects.get(id=question_id)
     page = request.GET.get('page', 1)
     paginated_answer = Question.paginate_questions(item.answer_set.all(), page, 5)
@@ -79,6 +88,9 @@ def question(request, question_id):
 @csrf_protect
 @login_required(login_url='login')
 def ask(request):
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     if request.method == 'POST':
         question_form = QuestionForm(request.POST, author=request.user.profile)
         if question_form.is_valid():
@@ -94,6 +106,9 @@ def ask(request):
 
 @csrf_protect
 def login_view(request):
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     if request.method == 'POST':
         log_form = LoginForm(request.POST)
         if log_form.is_valid():
@@ -114,6 +129,9 @@ def login_view(request):
 
 @csrf_protect
 def signup(request):
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     if request.method == 'POST':
         reg_form = RegisterForm(request.POST)
         if reg_form.is_valid():
@@ -134,6 +152,9 @@ def signup(request):
 @csrf_protect
 @login_required(login_url='login')
 def settings(request):
+    top_users = Profile.objects.get_top_users()
+    popular_tags = Tag.get_popular_tags()
+
     user = request.user
     profile = user.profile
 
