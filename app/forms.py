@@ -25,6 +25,14 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password', 're_password']
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+
+        # Проверяем, что никнейм уникален
+        if User.objects.exclude(profile__nickname=self.instance.username).filter(username=username).exists():
+            raise ValidationError('Этот никнейм уже занят. Выберите другой.')
+        return username
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -53,11 +61,32 @@ class ProfileEditorForm(forms.ModelForm):
         model = Profile
         fields = ['nickname', 'email', 'avatar']
 
+    def clean_nickname(self):
+        nickname = self.cleaned_data['nickname']
+
+        # Проверяем, что никнейм уникален
+        if User.objects.exclude(profile__nickname=self.instance.nickname).filter(username=nickname).exists():
+            raise ValidationError('Этот никнейм уже занят. Выберите другой.')
+
+        return nickname
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+        print(avatar)
+        if not avatar:
+            return 'img/default.png'
+
+        return avatar
+
     def save(self, **kwargs):
         profile = super().save(**kwargs)
-
         profile.avatar = self.cleaned_data.get('avatar')
         profile.save()
+
+        user = profile.user
+        user.username = self.cleaned_data['nickname']
+        user.email = self.cleaned_data['email']
+        user.save()
 
         return profile
 

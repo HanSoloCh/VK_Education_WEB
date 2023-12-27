@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Count, Sum
 
-# TODO Настроить лучшие вопросы и убрать объект Like
-
 
 class ProfileManager(models.Manager):
     def get_top_users(self, count=5):

@@ -141,9 +141,6 @@ def settings(request):
         form = ProfileEditorForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            user.username = form.cleaned_data['nickname']
-            user.email = form.cleaned_data['email']
-            user.save()
             return redirect('settings')
     else:
         form = ProfileEditorForm(instance=profile, initial=model_to_dict(request.user))
